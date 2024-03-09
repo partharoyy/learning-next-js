@@ -1,11 +1,12 @@
 'use client';
 
+import { signup } from '@/app/actions/user';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { ChangeEventHandler, useState } from 'react';
 
 export function SignupComponent() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
 
@@ -20,10 +21,10 @@ export function SignupComponent() {
             <div className='pt-2'>
               <LabelledInput
                 onChange={(e) => {
-                  setUsername(e.target.value);
+                  setEmail(e.target.value);
                 }}
-                label='Username'
-                placeholder='harkirat@gmail.com'
+                label='Email'
+                placeholder='partha@gmail.com'
               />
               <LabelledInput
                 onChange={(e) => {
@@ -35,10 +36,8 @@ export function SignupComponent() {
               />
               <button
                 onClick={async () => {
-                  await axios.post('http://localhost:3000/api/user', {
-                    username,
-                    password,
-                  });
+                  const response = await signup(email, password);
+                  console.log(response);
                   router.push('/');
                 }}
                 type='button'
